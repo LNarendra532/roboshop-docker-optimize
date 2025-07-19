@@ -1,0 +1,3 @@
+#direcly we can run the redis
+
+docker run -d --name redis --network roboshop redis:7

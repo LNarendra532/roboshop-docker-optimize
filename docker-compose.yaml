@@ -1,0 +1,96 @@
+networks:
+  default:
+    driver: bridge  
+    name: roboshop
+    externel: true    
+# we manually created a bridge network outside of Compose using the docker [network rosbosohop,
+# you can connect your Compose services to it by marking the network as external=true.  
+volumes:
+  mongodb: # Declare the named volume
+  redis:
+  mysql:
+  rabbimq: # docker volume create rabbitmq
+
+services:
+  mongodb:
+    image: lvnare532/mongodb:v1
+    container_name: mongodb
+    volumes:
+    - mongodb:/data/db # moumting /data/db
+  catalogue:
+    image: lvnare532/catalogue:v1
+    container_name: catalogue
+    depends_on:
+    - mongodb
+  redis:
+    image: redis:7.0  # directly iwill pull it form docker hub , so iam not using lvnare532
+    container_name: redis
+    volumes:
+    - redis:/data
+  user:
+    image: lvnare532/user:v1
+    container_name: user
+    depends_on:
+    - redis
+    - mongodb
+  cart:
+    image: lvnare532/cart:v1
+    container_name: cart
+    depends_on:
+    - catalogue
+    - redis
+  mysql:
+    image: lvnare532/mysql:v1
+    container_name: mysql
+    volumes:
+    - mysql:/var/lib/mysql
+  shipping:
+    image: lvnare532/shipping:v1
+    container_name: shipping
+    depends_on:
+    - mysql
+    - cart
+  rabbitmq:
+    image: rabbimq:3
+    container_name: rabbimq
+    environment:
+      RABBITMQ_DEFAULT_USER: roboshop
+      RABBITMQ_DEFAULT_PASS: roboshop123
+    volumes:
+    - rabbimq:/var/lib/rabbimq
+  payment:
+    image: lvnare532/payment:v1
+    container_name: payment
+    environment:
+      CART_HOST: cart
+      CART_PORT: 8080
+      USER_HOST: user
+      USER_PORT: 8080
+      AMQP_HOST: rabbimq
+      AMQP_USER: roboshop
+      AMQP_PASS: roboshop123
+    depends_on:
+    - user
+    - rabbimq
+    - cart
+  frontend:
+    image: lvnare532/frontend:v1
+    container_name: frontend
+    expose:
+    - "80:80" # hostport:container-port
+    depends_on:
+    - catalogue
+    - user
+    - cart
+    - payment
+    - shipping
+    
+
+    
+     
+
+    
+
+
+# how to run 'docker compose up [running all] -d [sending to background]'
+# docker compose up -d
