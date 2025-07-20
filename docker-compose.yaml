@@ -11,39 +11,39 @@ volumes:
 
 services:
   mongodb:
-    image: lvnare532/mongodb:v1
+    image: lvnaren532/mongodb:v1
     container_name: mongodb
     volumes:
     - mongodb:/data/db # moumting /data/db
   catalogue:
-    image: lvnare532/catalogue:v1
+    image: lvnaren532/catalogue:v1
     container_name: catalogue
     depends_on:
     - mongodb
   redis:
-    image: redis:7.0  # directly iwill pull it form docker hub , so iam not using lvnare532
+    image: redis:7.0  # directly iwill pull it form docker hub , so iam not using lvnaren532
     container_name: redis
     volumes:
     - redis:/data
   user:
-    image: lvnare532/user:v1
+    image: lvnaren532/user:v1
     container_name: user
     depends_on:
     - redis
     - mongodb
   cart:
-    image: lvnare532/cart:v1
+    image: lvnaren532/cart:v1
     container_name: cart
     depends_on:
     - catalogue
     - redis
   mysql:
-    image: lvnare532/mysql:v1
+    image: lvnaren532/mysql:v1
     container_name: mysql
     volumes:
     - mysql:/var/lib/mysql
   shipping:
-    image: lvnare532/shipping:v1
+    image: lvnaren532/shipping:v1
     container_name: shipping
     depends_on:
     - mysql
@@ -57,7 +57,7 @@ services:
     volumes:
     - rabbitmq:/var/lib/rabbitmq
   payment:
-    image: lvnare532/payment:v1
+    image: lvnaren532/payment:v1
     container_name: payment
     environment:
       CART_HOST: cart
@@ -72,7 +72,7 @@ services:
     - rabbitmq
     - cart
   frontend:
-    image: lvnare532/frontend:v1
+    image: lvnaren532/frontend:v1
     container_name: frontend
     expose:
     - "80:80" # hostport:container-port
