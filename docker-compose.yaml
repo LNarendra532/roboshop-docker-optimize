@@ -2,7 +2,7 @@ networks:
   default:
     driver: bridge  
     name: roboshop
-    externel: true    
+    externel: true   
 # we manually created a bridge network outside of Compose using the docker [network rosbosohop,
 # you can connect your Compose services to it by marking the network as external=true.  
 volumes:
