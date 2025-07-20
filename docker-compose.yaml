@@ -49,7 +49,7 @@ services:
     - mysql
     - cart
   rabbitmq:
-    image: rabbimq:3
+    image: rabbitmq:3
     container_name: rabbimq
     environment:
       RABBITMQ_DEFAULT_USER: roboshop
