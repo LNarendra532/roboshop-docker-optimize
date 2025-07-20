@@ -7,7 +7,7 @@ volumes:
   mongodb: # Declare the named volume
   redis:
   mysql:
-  rabbimq: # docker volume create rabbitmq
+  rabbitmq: # docker volume create rabbitmq
 
 services:
   mongodb:
@@ -50,12 +50,12 @@ services:
     - cart
   rabbitmq:
     image: rabbitmq:3
-    container_name: rabbimq
+    container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: roboshop
       RABBITMQ_DEFAULT_PASS: roboshop123
     volumes:
-    - rabbimq:/var/lib/rabbimq
+    - rabbitmq:/var/lib/rabbitmq
   payment:
     image: lvnare532/payment:v1
     container_name: payment
@@ -69,7 +69,7 @@ services:
       AMQP_PASS: roboshop123
     depends_on:
     - user
-    - rabbimq
+    - rabbitmq
     - cart
   frontend:
     image: lvnare532/frontend:v1
