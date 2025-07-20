@@ -2,9 +2,7 @@ networks:
   default:
     driver: bridge  
     name: roboshop
-    externel: true   
-# we manually created a bridge network outside of Compose using the docker [network rosbosohop,
-# you can connect your Compose services to it by marking the network as external=true.  
+    external: true   
 volumes:
   mongodb: # Declare the named volume
   redis:
@@ -89,7 +87,8 @@ services:
     
      
 
-    
+    # we manually created a bridge network outside of Compose using the docker [network rosbosohop,
+# you can connect your Compose services to it by marking the network as external=true.  
 
 
 # how to run 'docker compose up [running all] -d [sending to background]'
