@@ -1,12 +1,12 @@
 
 # ---------- Builder Stage ----------
+# Stage 1: Build
 FROM python:3.9.23-alpine3.22 AS builder
-WORKDIR /opt/server
-COPY requirements.txt . 
-COPY *.py  . 
-COPY payment.ini .
-# Install into a separate location to copy cleanly
-RUN pip3 install --prefix=/install -r requirements.txt
+WORKDIR /build
+# Install build dependencies
+RUN apk add --no-cache python3-dev build-base linux-headers pcre-dev
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir --prefix=/install -r requirements.txt
 
 # ---------- Final Stage ----------
 FROM python:3.9.23-alpine3.22
